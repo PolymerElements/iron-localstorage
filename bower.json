@@ -1,10 +1,21 @@
 {
-  "name": "core-localstorage",
-  "private": true,
+  "name": "iron-localstorage",
+  "version": "0.8.0",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer"
+  ],
+  "main": "iron-localstorage.html",
+  "license": "MIT",
+  "homepage": "https://github.com/PolymerElements/iron-localstorage/",
+
   "dependencies": {
-    "polymer": "Polymer/polymer#master"
+    "polymer": "Polymer/polymer#v0.8.0-rc.7",
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^1.1.0"
+    "iron-doc-viewer": "polymerelements/iron-doc-viewer#^0.8.0",
+    "test-fixture": "PolymerElements/test-fixture#^0.8.0",
+    "web-component-tester": "*"
   }
 }
