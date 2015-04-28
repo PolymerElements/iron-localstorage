@@ -31,12 +31,10 @@ triggered only when value is a different instance.
     is: 'iron-localstorage',
     /**
      * Fired when a value is loaded from localStorage.
+     *
      * @event iron-localstorage-load
-     */
-
-    /**
-     * Fired when localStorage was changed outside of current document (mirrors window storage event)
-     * @event iron-localstorage-global-change
+     * @param {Object} detail
+     * @param {Boolean} detail.externalChange true if change occured in different window
      */
 
     properties: {
@@ -76,7 +74,7 @@ triggered only when value is a different instance.
     },
 
     observers: [
-      'load(name useRaw)'
+      'reload(name useRaw)'
     ],
 
     ready: function() {
@@ -95,8 +93,7 @@ triggered only when value is a different instance.
     /** @private */
     handleStorage: function(ev) {
       if (ev.key == this.name) {
-        this.load();
-        this.fire('iron-localstorage-global-change');
+        this.load(true);
       }
     },
 
@@ -107,8 +104,13 @@ triggered only when value is a different instance.
       }
     },
 
+    /** @private */
+    reload: function() {
+      this.load();
+    },
+
     /** loads value from local storage */
-    load: function() {
+    load: function(externalChange) {
       var v = localStorage.getItem(this.name);
       if (this.useRaw) {
         this.value = v;
@@ -135,7 +137,7 @@ triggered only when value is a different instance.
         }
       }
       this.loaded = true;
-      this.fire('iron-localstorage-load');
+      this.fire('iron-localstorage-load', { externalChange: externalChange});
     },
 
     /**
