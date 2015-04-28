@@ -70,6 +70,14 @@ triggered only when value is a different instance.
         type: Boolean,
         value: false,
         reflectToAttribute: true
+      },
+      /**
+       * Last error encountered while saving/loading items. Null otherwise
+       */
+      errorMessage: {
+        type: String,
+        value: null,
+        notify: true
       }
     },
 
@@ -152,6 +160,7 @@ triggered only when value is a different instance.
       }
       catch(ex) {
         // Happens in Safari incognito mode,
+        this.errorMessage = ex.message;
         console.error("localStorage could not be saved. Safari incoginito mode?", ex);
       }
     }
