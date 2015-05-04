@@ -51,8 +51,7 @@ triggered only when value is a different instance.
        */
       value: {
         type: Object,
-        notify: true,
-        observer: 'valueChanged'
+        notify: true
       },
 
       /**
@@ -68,29 +67,36 @@ triggered only when value is a different instance.
        */
       autoSaveDisabled: {
         type: Boolean,
-        value: false,
-        reflectToAttribute: true
+        value: false
       },
       /**
        * Last error encountered while saving/loading items. Null otherwise
        */
       errorMessage: {
         type: String,
-        value: null,
         notify: true
+      },
+      /*
+       * True if value was loaded
+       */
+      _loaded: {
+        type: Boolean,
+        value: false
       }
     },
 
     observers: [
-      'reload(name useRaw)'
+      'reload(name,useRaw)',
+      'trySaveValue(value, _loaded, autoSaveDisabled)'
     ],
 
     ready: function() {
+      this._boundHandleStorage = this._handleStorage.bind(this);
       if (this.name !== '')
         this.load();
     },
+
     attached: function() {
-      this._boundHandleStorage = this.handleStorage.bind(this);
       window.addEventListener('storage', this._boundHandleStorage);
     },
 
@@ -99,15 +105,15 @@ triggered only when value is a different instance.
     },
 
     /** @private */
-    handleStorage: function(ev) {
+    _handleStorage: function(ev) {
       if (ev.key == this.name) {
         this.load(true);
       }
     },
 
     /** @private */
-    valueChanged: function() {
-      if (this.loaded && !this.autoSaveDisabled) {
+    trySaveValue: function(value, _loaded, autoSaveDisabled) {
+      if (_loaded && !autoSaveDisabled) {
         this.save();
       }
     },
@@ -117,7 +123,10 @@ triggered only when value is a different instance.
       this.load();
     },
 
-    /** loads value from local storage */
+    /**
+     * loads value from local storage
+     * @param {Boolean} internal parameter, true if loading changes from a different window
+     */
     load: function(externalChange) {
       var v = localStorage.getItem(this.name);
       if (this.useRaw) {
@@ -139,12 +148,13 @@ triggered only when value is a different instance.
           try {
             v = JSON.parse(v);
           } catch(x) {
+            this.errorMessage = "Could not parse local storage value";
             console.error("could not parse local storage value", v);
           }
           this.value = v;
         }
       }
-      this.loaded = true;
+      this._loaded = true;
       this.fire('iron-localstorage-load', { externalChange: externalChange});
     },
 

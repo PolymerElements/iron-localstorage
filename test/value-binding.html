@@ -82,12 +82,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       test('set value', function(done) {
         var newValue = {'foo': 'zot'};
         xtest.value = newValue;
-        flush(function() {
+        // flush(function() {
           var v = window.localStorage.getItem(xtest.$.localstorage.name);
           v = JSON.parse(v);
           assert.equal(v.foo, newValue.foo);
           done();
-        });
+        // });
       });
 
       test('save', function(done) {
