@@ -92,7 +92,7 @@ triggered only when value is a different instance.
     ready: function() {
       this._boundHandleStorage = this._handleStorage.bind(this);
       if (this.name !== '')
-        this.load();
+        this._load();
     },
 
     attached: function() {
@@ -106,7 +106,7 @@ triggered only when value is a different instance.
     /** @private */
     _handleStorage: function(ev) {
       if (ev.key == this.name) {
-        this.load(true);
+        this._load(true);
       }
     },
 
@@ -119,14 +119,14 @@ triggered only when value is a different instance.
 
     /** @private */
     reload: function() {
-      this.load();
+      this._load();
     },
 
     /**
      * loads value from local storage
      * @param {Boolean} internal parameter, true if loading changes from a different window
      */
-    load: function(externalChange) {
+    _load: function(externalChange) {
       var v = localStorage.getItem(this.name);
       if (this.useRaw) {
         this.value = v;
@@ -158,9 +158,7 @@ triggered only when value is a different instance.
     },
 
     /**
-     * Saves the value to localStorage.
-     *
-     * @method save
+     * Saves the value to localStorage. Call to save if autoSaveDisabled is set
      */
     save: function() {
       var v = this.useRaw ? this.value : JSON.stringify(this.value);
