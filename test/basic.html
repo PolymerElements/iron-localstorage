@@ -50,15 +50,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.equal(storage.value.foo, 'bar');
       });
 
-      test('save', function(done) {
+      test('save', function() {
         var newValue = {'foo': 'zot'};
         storage.value = newValue;
-        flush(function() {
-          var v = window.localStorage.getItem(storage.name);
-          v = JSON.parse(v);
-          assert.equal(v.foo, newValue.foo);
-          done();
-        });
+        var v = window.localStorage.getItem(storage.name);
+        v = JSON.parse(v);
+        assert.equal(v.foo, newValue.foo);
       });
 
     });

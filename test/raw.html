@@ -51,14 +51,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.equal(storage.value, 'hello world');
       });
 
-      test('save', function(done) {
+      test('save', function() {
         var m = 'goodbye';
         storage.value = m;
-        flush(function() {
-          var v = window.localStorage.getItem(storage.name);
-          assert.equal(v, m);
-          done();
-        });
+        var v = window.localStorage.getItem(storage.name);
+        assert.equal(v, m);
       });
 
     });
