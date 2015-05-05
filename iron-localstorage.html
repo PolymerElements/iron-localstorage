@@ -86,7 +86,7 @@ triggered only when value is a different instance.
 
     observers: [
       'reload(name,useRaw)',
-      'trySaveValue(value, _loaded, autoSaveDisabled)'
+      '_trySaveValue(value, _loaded, autoSaveDisabled)'
     ],
 
     ready: function() {
@@ -110,14 +110,17 @@ triggered only when value is a different instance.
       }
     },
 
-    /** @private */
-    trySaveValue: function(value, _loaded, autoSaveDisabled) {
+    _trySaveValue: function(value, _loaded, autoSaveDisabled) {
       if (_loaded && !autoSaveDisabled) {
         this.save();
       }
     },
 
-    /** @private */
+    /**
+     * Loads the value again. Use if you modify
+     * localstorage using DOM calls, and want to
+     * keep this element in sync.
+     */
     reload: function() {
       this._load();
     },

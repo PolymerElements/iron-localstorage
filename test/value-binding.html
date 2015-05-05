@@ -67,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
         window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
         xtest = document.querySelector('x-test');
-        xtest.$.localstorage._load();
+        xtest.$.localstorage.reload();
       });
 
       suiteTeardown(function() {
@@ -79,16 +79,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.equal(xtest.value.foo, 'bar');
       });
 
-      test('set value', function(done) {
+      test('set value', function() {
         var newValue = {'foo': 'zot'};
         xtest.value = newValue;
         var v = window.localStorage.getItem(xtest.$.localstorage.name);
         v = JSON.parse(v);
         assert.equal(v.foo, newValue.foo);
-        done();
       });
 
-      test('save', function(done) {
+      test('save', function() {
         xtest.value.foo = 'quux';
         xtest.$.localstorage.save();
         var v = window.localStorage.getItem(xtest.$.localstorage.name);
