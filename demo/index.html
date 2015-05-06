@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 <body>
 
-  <template is="x-autobind">
+  <template is="dom-bind">
     <p>string entered below will be stored in localStorage and automatically retrived from localStorage when the page is reloaded</p>
     <p>If you open another window with this test, changes in one window will propagate to
     the other immediately.</p>
@@ -29,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
 
-  <template is="x-autobind">
+  <template is="dom-bind">
     <input type="checkbox" checked="{{mode::change}}">
     <iron-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></iron-localstorage>
   </template>
