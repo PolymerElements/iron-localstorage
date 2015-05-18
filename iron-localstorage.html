@@ -11,32 +11,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-Element access to localStorage.  The "name" property
-is the key to the data ("value" property) stored in localStorage.
+Element access to Web Storage API (window.localStorage).
 
-`iron-localstorage` automatically saves the value to localStorage when
-value is changed.  Note that if value is an object auto-save will be
-triggered only when value is a different instance.
+Keeps `value` is sync with a localStorage key.
 
-    <iron-localstorage name="my-app-storage" value="{{value}}"></iron-localstorage>
+Direct assignments to `value` are automatically detected and saved.
+Subproperty assignments are not (ex: `value.bar='foo'`).
+Call `save()` manually to commit your changes after modifying subproperties.
 
-@group Iron Elements
-@element iron-localstorage
-@blurb Element access to localStorage.
+Value is saved in localStorage as JSON by default.
+
+If you set the value to null, storage key will be deleted.
+
+    <iron-localstorage name="my-app-storage" value="{{value}}">
+    </iron-localstorage>
+
+
+<b>Warning</b>: do not pass subproperty bindings to iron-localstorage until Polymer
+[bug 1550](https://github.com/Polymer/polymer/issues/1550)
+is resolved. Local storage will be blown away.
+No `<iron-localstorage value="{{foo.bar}}"`.
 -->
 <dom-module id="iron-localstorage"></dom-module>
 <script>
 
   Polymer({
     is: 'iron-localstorage',
+
     /**
-     * Fired when a value is loaded from localStorage.
+     * Fired when value loads from localStorage.
      *
-     * @event iron-localstorage-load
      * @param {Object} detail
      * @param {Boolean} detail.externalChange true if change occured in different window
+     * @event iron-localstorage-load
      */
 
+    /**
+     * Fired when loaded value is null.
+     * You can use event handler to initialize default value.
+     *
+     * @event iron-localstorage-load-empty
+     */
     properties: {
       /**
        * The key to the data stored in localStorage.
@@ -47,6 +62,7 @@ triggered only when value is a different instance.
       },
       /**
        * The data associated with this storage.
+       * If value is set to null, and storage is in useRaw mode, item will be deleted
        */
       value: {
         type: Object,
@@ -91,8 +107,6 @@ triggered only when value is a different instance.
 
     ready: function() {
       this._boundHandleStorage = this._handleStorage.bind(this);
-      if (this.name !== '')
-        this._load();
     },
 
     attached: function() {
@@ -103,7 +117,6 @@ triggered only when value is a different instance.
       window.removeEventListener('storage', this._boundHandleStorage);
     },
 
-    /** @private */
     _handleStorage: function(ev) {
       if (ev.key == this.name) {
         this._load(true);
@@ -111,6 +124,10 @@ triggered only when value is a different instance.
     },
 
     _trySaveValue: function(value, _loaded, autoSaveDisabled) {
+      if (this._justLoaded) { // guard against saving after _load()
+        this._justLoaded = false;
+        return;
+      }
       if (_loaded && !autoSaveDisabled) {
         this.save();
       }
@@ -118,7 +135,7 @@ triggered only when value is a different instance.
 
     /**
      * Loads the value again. Use if you modify
-     * localstorage using DOM calls, and want to
+     * localStorage using DOM calls, and want to
      * keep this element in sync.
      */
     reload: function() {
@@ -127,46 +144,40 @@ triggered only when value is a different instance.
 
     /**
      * loads value from local storage
-     * @param {Boolean} internal parameter, true if loading changes from a different window
+     * @param {Boolean} externalChange true if loading changes from a different window
      */
     _load: function(externalChange) {
       var v = localStorage.getItem(this.name);
-      if (this.useRaw) {
-        this.value = v;
-      } else {
-        // localStorage has a flaw that makes it difficult to determine
-        // if a key actually exists or not (getItem returns null if the
-        // key doesn't exist, which is not distinguishable from a stored
-        // null value)
-        // however, if not `useRaw`, an (unparsed) null value unambiguously
-        // signals that there is no value in storage (a stored null value would
-        // be escaped, i.e. "null")
-        // in this case we save any non-null current (default) value
-        if (v === null) {
-          if (this.value != null) {
-            this.save();
-          }
-        } else {
-          try {
-            v = JSON.parse(v);
-          } catch(x) {
-            this.errorMessage = "Could not parse local storage value";
-            console.error("could not parse local storage value", v);
-          }
-          this.value = v;
+
+      if (v === null) {
+        this.fire('iron-localstorage-load-empty');
+      } else if (!this.useRaw) {
+        try {
+          v = JSON.parse(v);
+        } catch(x) {
+          this.errorMessage = "Could not parse local storage value";
+          console.error("could not parse local storage value", v);
         }
       }
+
+      this._justLoaded = true;
       this._loaded = true;
+      this.value = v;
       this.fire('iron-localstorage-load', { externalChange: externalChange});
     },
 
     /**
-     * Saves the value to localStorage. Call to save if autoSaveDisabled is set
+     * Saves the value to localStorage. Call to save if autoSaveDisabled is set.
+     * If `value` is null, deletes localStorage.
      */
     save: function() {
       var v = this.useRaw ? this.value : JSON.stringify(this.value);
       try {
-        localStorage.setItem(this.name, v);
+        if (this.value === null) {
+          localStorage.removeItem(this.name);
+        } else {
+          localStorage.setItem(this.name, v);
+        }
       }
       catch(ex) {
         // Happens in Safari incognito mode,

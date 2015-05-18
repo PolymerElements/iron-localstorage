@@ -58,6 +58,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.equal(v.foo, newValue.foo);
       });
 
+      test('delete', function() {
+        storage.value = null;
+        var v = window.localStorage.getItem(storage.name);
+        assert.isNull(v);
+      });
+
+      test('event iron-localstorage-load', function(done) {
+        var ls = document.createElement('iron-localstorage');
+        ls.addEventListener('iron-localstorage-load', function() {
+          done();
+        });
+        ls.name = 'iron-localstorage-test';
+      });
+
+      test('event iron-localstorage-load-empty', function(done) {
+        var ls = document.createElement('iron-localstorage');
+        ls.addEventListener('iron-localstorage-load-empty', function() {
+          done();
+        });
+        ls.name = 'iron-localstorage-not-exist';
+      });
+
     });
 
   </script>
