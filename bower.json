@@ -4,9 +4,7 @@
   "description": "Provides access to local storage",
   "keywords": [
     "web-component",
-    "web-components",
     "polymer",
-    "iron",
     "storage"
   ],
   "main": "iron-localstorage.html",
