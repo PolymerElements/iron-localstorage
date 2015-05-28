@@ -8,7 +8,7 @@
     "storage"
   ],
   "main": "iron-localstorage.html",
-  "license": "MIT",
+  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/PolymerElements/iron-localstorage/",
   "dependencies": {
     "polymer": "Polymer/polymer#^0.9.0"
