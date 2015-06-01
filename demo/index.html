@@ -1,3 +1,4 @@
+
 <!doctype html>
 <!--
 @license
@@ -15,24 +16,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-  <link rel="import" href="../iron-localstorage.html">
+  <link rel="import" href="../../paper-styles/paper-styles.html">
+  <link rel="import" href="../../paper-styles/demo-pages.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 
+  <link rel="import" href="../iron-localstorage.html">
+  <style is="custom-style">
+    input {
+      padding: 0.4em;
+      font-size: 16px;
+      margin: 15px 0;
+    }
+  </style>
 </head>
 <body>
 
-  <template is="dom-bind">
-    <p>string entered below will be stored in localStorage and automatically retrived from localStorage when the page is reloaded</p>
-    <p>If you open another window with this test, changes in one window will propagate to
-    the other immediately.</p>
-    <input value="{{value::change}}">
-    <iron-localstorage name="polymer-localstorage-x-test1" value="{{value}}"></iron-localstorage>
-  </template>
+  <div class="vertical-section vertical-section-container centered">
 
+    <template is="dom-bind">
+      <p>string entered below will be stored in <code>localStorage</code> and automatically retrived from <code>localStorage</code> when the page is reloaded</p>
+      <p>If you open another window with this test, changes in one window will propagate to
+      the other immediately.</p>
+      <input value="{{value::change}}" placeholder="Enter words">
+      <iron-localstorage name="polymer-localstorage-x-test1" value="{{value}}"></iron-localstorage>
+    </template>
 
-  <template is="dom-bind">
-    <input type="checkbox" checked="{{mode::change}}">
-    <iron-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></iron-localstorage>
-  </template>
+    <template is="dom-bind">
+      <paper-checkbox checked="{{mode::change}}">Check me</paper-checkbox>
 
+      <iron-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></iron-localstorage>
+    </template>
+  
+  </div>
 </body>
 </html>
