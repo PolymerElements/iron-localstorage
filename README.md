@@ -9,5 +9,5 @@ value is changed.  Note that if value is an object auto-save will be
 triggered only when value is a different instance.
 
 ```html
-<iron-localstorage name="my-app-storage" value="{{value}}"></iron-localstorage>
+<iron-localstorage name="my-app-storage" value="{{value}}" on-iron-localstorage-load-empty="initializeDefaultValue"></iron-localstorage>
 ```
