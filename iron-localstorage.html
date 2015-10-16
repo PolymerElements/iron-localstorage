@@ -54,7 +54,8 @@ Value is saved as json by default.
 ###Tech notes:
 
 * * `value.*` is observed, and saved on modifications. You must use
-property notification methods to modify value for changes to be observed.
+    path change notifification methods such as `set()` to modify value 
+    for changes to be observed.
 
 * * Set `auto-save-disabled` to prevent automatic saving.
 
