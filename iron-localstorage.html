@@ -54,7 +54,7 @@ Value is saved as json by default.
 ### Tech notes:
 
 * * `value.*` is observed, and saved on modifications. You must use
-    path change notifification methods such as `set()` to modify value 
+    path change notifification methods such as `set()` to modify value
     for changes to be observed.
 
 * * Set `auto-save-disabled` to prevent automatic saving.
@@ -207,12 +207,12 @@ is resolved. Local storage will be blown away.
 
     /**
      * Saves the value to localStorage. Call to save if autoSaveDisabled is set.
-     * If `value` is null, deletes localStorage.
+     * If `value` is null or undefined, deletes localStorage.
      */
     save: function() {
       var v = this.useRaw ? this.value : JSON.stringify(this.value);
       try {
-        if (this.value === null) {
+        if (this.value === null || this.value === undefined) {
           window.localStorage.removeItem(this.name);
         } else {
           window.localStorage.setItem(this.name, /** @type {string} */ (v));
