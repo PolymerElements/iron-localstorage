@@ -24,5 +24,6 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
     "paper-styles": "PolymerElements/paper-styles#^1.0.2",
     "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.1"
-  }
+  },
+  "ignore": []
 }
