@@ -64,7 +64,7 @@ Value is saved as json by default.
 ### Tech notes:
 
 * `value.*` is observed, and saved on modifications. You must use
-  path change notifification methods such as `set()` to modify value
+  path change notification methods such as `set()` to modify value
   for changes to be observed.
 
 
