@@ -193,7 +193,7 @@ is resolved. Local storage will be blown away.
             v = JSON.parse(v);
           } catch(x) {
             this.errorMessage = "Could not parse local storage value";
-            console.error("could not parse local storage value", v);
+            Polymer.Base._error("could not parse local storage value", v);
             v = null;
           }
         }
@@ -221,7 +221,7 @@ is resolved. Local storage will be blown away.
       catch(ex) {
         // Happens in Safari incognito mode,
         this.errorMessage = ex.message;
-        console.error("localStorage could not be saved. Safari incognito mode?", ex);
+        Polymer.Base._error("localStorage could not be saved. Safari incognito mode?", ex);
       }
     }
 
