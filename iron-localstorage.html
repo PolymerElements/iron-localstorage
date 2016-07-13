@@ -179,7 +179,12 @@ is resolved. Local storage will be blown away.
      * @param {boolean=} externalChange true if loading changes from a different window
      */
     _load: function(externalChange) {
-      var v = window.localStorage.getItem(this.name);
+      try {
+        var v = window.localStorage.getItem(this.name);
+      } catch (ex) {
+        this.errorMessage = ex.message;
+        console.error("LocalStorage could not be saved. Safari cookies always blocked?", ex);
+      };
 
       if (v === null) {
         this._loaded = true;
