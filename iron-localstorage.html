@@ -183,7 +183,7 @@ is resolved. Local storage will be blown away.
         var v = window.localStorage.getItem(this.name);
       } catch (ex) {
         this.errorMessage = ex.message;
-        console.error("LocalStorage could not be saved. Safari cookies always blocked?", ex);
+        this._error("LocalStorage could not be saved. Safari cookies always blocked?", ex);
       };
 
       if (v === null) {
