@@ -179,7 +179,13 @@ is resolved. Local storage will be blown away.
      * @param {boolean=} externalChange true if loading changes from a different window
      */
     _load: function(externalChange) {
-      var v = window.localStorage.getItem(this.name);
+      try {
+        var v = window.localStorage.getItem(this.name);
+      } catch (ex) {
+        this.errorMessage = ex.message;
+
+        this._error("Could not save to localStorage.  Try enabling cookies for this page.", ex);
+      };
 
       if (v === null) {
         this._loaded = true;
@@ -221,7 +227,7 @@ is resolved. Local storage will be blown away.
       catch(ex) {
         // Happens in Safari incognito mode,
         this.errorMessage = ex.message;
-        Polymer.Base._error("localStorage could not be saved. Safari incognito mode?", ex);
+        Polymer.Base._error("Could not save to localStorage. Incognito mode may be blocking this action", ex);
       }
     }
 
