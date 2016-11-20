@@ -146,7 +146,7 @@ is resolved. Local storage will be blown away.
     },
 
     _handleStorage: function(ev) {
-      if (ev.key == this.name) {
+      if (ev.key == this.name || !ev.key) {
         this._load(true);
       }
     },
