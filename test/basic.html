@@ -110,12 +110,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         if (Polymer.Element) {
           t.value = value;
-          debugger;
           t = t.parentNode;
         }
 
         t.value = value;
-        debugger;
         assert.equal('FOO', ls.value.foo); // value has propagated from template to storage
 
         ls.flushDebouncer('save');
