@@ -41,12 +41,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     var storage;
+    var nameless;
 
     suite('basic', function() {
 
       setup(function() {
         window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
         storage = document.getElementById('fixture').create();
+        nameless = document.getElementById('nameless').create();
+        document.getElementById('nameless').restore();
         storage.flushDebouncer('reload');
       });
 
@@ -80,27 +83,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       test('event iron-localstorage-load', function(done) {
-        // polymer 2 requires connected callback to initiate observers
-        var ls = document.getElementById('nameless').create();
-        ls.addEventListener('iron-localstorage-load', function() {
+        nameless.addEventListener('iron-localstorage-load', function() {
           done();
         });
-        ls.name = 'iron-localstorage-test';
+        nameless.name = 'iron-localstorage-test';
       });
 
       test('event iron-localstorage-load-empty', function(done) {
         window.localStorage.removeItem('iron-localstorage-test');
 
-        // polymer 2 requires connected callback to initiate observers
-        var ls = document.getElementById('nameless').create();
-        ls.addEventListener('iron-localstorage-load-empty', function() {
+        nameless.addEventListener('iron-localstorage-load-empty', function() {
           // testing recommended way to initialize localstorage
-          ls.value = "Yo";
-          ls.flushDebouncer('save');
+          nameless.value = "Yo";
+          nameless.flushDebouncer('save');
           assert.equal("Yo", JSON.parse( window.localStorage.getItem('iron-localstorage-test')));
           done();
         });
-        ls.name = 'iron-localstorage-test';
+        nameless.name = 'iron-localstorage-test';
       });
 
       test('auto-save sub-properties', function() {
