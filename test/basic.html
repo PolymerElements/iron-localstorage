@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <title>iron-localstorage-basic</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
   <link rel="import" href="../iron-localstorage.html">
 
@@ -27,9 +27,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <template id="boundTemplate" is="dom-bind">
-    <iron-localstorage id="boundLocal" name="iron-localstorage-test" value="{{value}}"></iron-localstorage>
-  </template>
+  <test-fixture id="nameless">
+    <template>
+      <iron-localstorage id="localstorage"></iron-localstorage>
+    </template>
+  </test-fixture>
+
+  <dom-bind>
+    <template id="boundTemplate" is="dom-bind">
+      <iron-localstorage id="boundLocal" name="iron-localstorage-test" value="{{value}}"></iron-localstorage>
+    </template>
+  </dom-bind> 
 
   <script>
     var storage;
@@ -72,7 +80,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       test('event iron-localstorage-load', function(done) {
-        var ls = document.createElement('iron-localstorage');
+        // polymer 2 requires connected callback to initiate observers
+        var ls = document.getElementById('nameless').create();
         ls.addEventListener('iron-localstorage-load', function() {
           done();
         });
@@ -82,7 +91,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       test('event iron-localstorage-load-empty', function(done) {
         window.localStorage.removeItem('iron-localstorage-test');
 
-        var ls = document.createElement('iron-localstorage');
+        // polymer 2 requires connected callback to initiate observers
+        var ls = document.getElementById('nameless').create();
         ls.addEventListener('iron-localstorage-load-empty', function() {
           // testing recommended way to initialize localstorage
           ls.value = "Yo";
@@ -97,7 +107,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var t = document.querySelector('#boundTemplate');
         var ls = document.querySelector('#boundLocal');
         var value = { foo: 'FOO', bar: 'BAR' };
+
+        if (Polymer.Element) {
+          t.value = value;
+          debugger;
+          t = t.parentNode;
+        }
+
         t.value = value;
+        debugger;
         assert.equal('FOO', ls.value.foo); // value has propagated from template to storage
 
         ls.flushDebouncer('save');
