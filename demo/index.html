@@ -45,16 +45,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-checkbox checked="{{value.hasEars::change}}">Has ears</paper-checkbox>
       </template>
       <script>
-        Polymer({
-          is:'demo-element',
+        window.addEventListener('WebComponentsReady', function() {
+          Polymer({
+            is:'demo-element',
 
-          initializeDefaultValue: function(ev) {
-            console.log("initializeTemplate");
-            this.value = {
-              name: "Mickey",
-              hasEars: true
+            initializeDefaultValue: function(ev) {
+              console.log("initializeTemplate");
+              this.value = {
+                name: "Mickey",
+                hasEars: true
+              }
             }
-          }
+          })
         })
       </script>
     </dom-module>

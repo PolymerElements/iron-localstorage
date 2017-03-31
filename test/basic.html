@@ -37,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template id="boundTemplate" is="dom-bind">
       <iron-localstorage id="boundLocal" name="iron-localstorage-test" value="{{value}}"></iron-localstorage>
     </template>
-  </dom-bind> 
+  </dom-bind>
 
   <script>
     var storage;
@@ -107,6 +107,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var ls = document.querySelector('#boundLocal');
         var value = { foo: 'FOO', bar: 'BAR' };
 
+        // this is needed for 2.x hybrid compatibility where values are set on the dom-bind element
+        // rather than on the template[is="dom-bind"]
         if (Polymer.Element) {
           t.value = value;
           t = t.parentNode;
