@@ -187,7 +187,7 @@ is resolved. Local storage will be blown away.
       } catch (ex) {
         this.errorMessage = ex.message;
 
-        this._error("Could not save to localStorage.  Try enabling cookies for this page.", ex);
+        Polymer.Base._error("Could not save to localStorage.  Try enabling cookies for this page.", ex);
       };
 
       if (v === null) {
