@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-  <link rel="import" href="../iron-localstorage.html">
+  <script type="module" src="../iron-localstorage.js"></script>
 
 </head>
 <body>
@@ -36,66 +36,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <x-test></x-test>
 
-  <script>
+  <script type="module">
+import '../iron-localstorage.js';
+import { Polymer } from '../../polymer/lib/legacy/polymer-fn.js';
 
-    window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
-    var xtest;
+window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
+var xtest;
 
-    suite('basic', function() {
+suite('basic', function() {
 
-      suiteSetup(function() {
-        Polymer({
-          is: 'x-foo',
-          properties: {
-            'value': {
-              type: Object,
-              notify: true
-            }
-          }
-        });
-        Polymer({
-          is: 'x-test',
-          properties: {
-            'value': {
-              type: Object,
-              notify: true
-            }
-          }
-        });
-        window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
-        xtest = document.querySelector('x-test');
-        xtest.$.localstorage.reload();
-      });
-
-      suiteTeardown(function() {
-        window.localStorage.removeItem('iron-localstorage-test');
-      });
-
-      test('initial value', function() {
-        assert.isNotNull(xtest.value);
-        assert.equal(xtest.value.foo, 'bar');
-      });
-
-      test('set value', function() {
-        var newValue = {'foo': 'zot'};
-        xtest.value = newValue;
-        xtest.$.localstorage.flushDebouncer('save');
-        var v = window.localStorage.getItem(xtest.$.localstorage.name);
-        v = JSON.parse(v);
-        assert.equal(v.foo, newValue.foo);
-      });
-
-      test('save', function() {
-        xtest.value.foo = 'quux';
-        xtest.$.localstorage.save();
-        var v = window.localStorage.getItem(xtest.$.localstorage.name);
-        v = JSON.parse(v);
-        assert.equal(v.foo, 'quux');
-      });
-
+  suiteSetup(function() {
+    Polymer({
+      is: 'x-foo',
+      properties: {
+        'value': {
+          type: Object,
+          notify: true
+        }
+      }
     });
+    Polymer({
+      is: 'x-test',
+      properties: {
+        'value': {
+          type: Object,
+          notify: true
+        }
+      }
+    });
+    window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
+    xtest = document.querySelector('x-test');
+    xtest.$.localstorage.reload();
+  });
 
-  </script>
+  suiteTeardown(function() {
+    window.localStorage.removeItem('iron-localstorage-test');
+  });
+
+  test('initial value', function() {
+    assert.isNotNull(xtest.value);
+    assert.equal(xtest.value.foo, 'bar');
+  });
+
+  test('set value', function() {
+    var newValue = {'foo': 'zot'};
+    xtest.value = newValue;
+    xtest.$.localstorage.flushDebouncer('save');
+    var v = window.localStorage.getItem(xtest.$.localstorage.name);
+    v = JSON.parse(v);
+    assert.equal(v.foo, newValue.foo);
+  });
+
+  test('save', function() {
+    xtest.value.foo = 'quux';
+    xtest.$.localstorage.save();
+    var v = window.localStorage.getItem(xtest.$.localstorage.name);
+    v = JSON.parse(v);
+    assert.equal(v.foo, 'quux');
+  });
+
+});
+</script>
 
 </body>
 </html>

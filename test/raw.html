@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-  <link rel="import" href="../iron-localstorage.html">
+  <script type="module" src="../iron-localstorage.js"></script>
 
 </head>
 <body>
@@ -28,38 +28,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+import '../iron-localstorage.js';
 
-    var storage;
+var storage;
 
-    suite('raw', function() {
+suite('raw', function() {
 
-      setup(function() {
-        window.localStorage.setItem('iron-localstorage-test', 'hello world');
-        document.getElementById('fixture').create();
-        storage = document.getElementById('localstorage');
-        storage.flushDebouncer('reload');
-      });
+  setup(function() {
+    window.localStorage.setItem('iron-localstorage-test', 'hello world');
+    document.getElementById('fixture').create();
+    storage = document.getElementById('localstorage');
+    storage.flushDebouncer('reload');
+  });
 
-      teardown(function() {
-        window.localStorage.removeItem('iron-localstorage-test');
-      });
+  teardown(function() {
+    window.localStorage.removeItem('iron-localstorage-test');
+  });
 
-      test('load', function() {
-        assert.equal(storage.value, 'hello world');
-      });
+  test('load', function() {
+    assert.equal(storage.value, 'hello world');
+  });
 
-      test('save', function() {
-        var m = 'goodbye';
-        storage.value = m;
-        storage.flushDebouncer('save');
-        var v = window.localStorage.getItem(storage.name);
-        assert.equal(v, m);
-      });
+  test('save', function() {
+    var m = 'goodbye';
+    storage.value = m;
+    storage.flushDebouncer('save');
+    var v = window.localStorage.getItem(storage.name);
+    assert.equal(v, m);
+  });
 
-    });
-
-  </script>
+});
+</script>
 
 </body>
 </html>
