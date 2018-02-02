@@ -1,0 +1,10 @@
+{
+  "name": "@polymer/iron-localstorage",
+  "private": true,
+  "description": "Provides access to local storage",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-localstorage.git"
+  },
+  "license": "http://polymer.github.io/LICENSE.txt"
+}
