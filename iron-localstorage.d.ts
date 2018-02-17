@@ -102,32 +102,32 @@ interface IronLocalstorageElement extends Polymer.Element {
    * True if value has been loaded
    */
   _loaded: boolean|null|undefined;
-  ready(): any;
-  attached(): any;
-  detached(): any;
-  _handleStorage(ev: any): any;
-  _trySaveValue(): any;
-  _debounceReload(): any;
+  ready(): void;
+  attached(): void;
+  detached(): void;
+  _handleStorage(ev: any): void;
+  _trySaveValue(): void;
+  _debounceReload(): void;
 
   /**
    * Loads the value again. Use if you modify
    * localStorage using DOM calls, and want to
    * keep this element in sync.
    */
-  reload(): any;
+  reload(): void;
 
   /**
    * loads value from local storage
    *
    * @param externalChange true if loading changes from a different window
    */
-  _load(externalChange?: boolean): any;
+  _load(externalChange?: boolean): void;
 
   /**
    * Saves the value to localStorage. Call to save if autoSaveDisabled is set.
    * If `value` is null or undefined, deletes localStorage.
    */
-  save(): any;
+  save(): void;
 }
 
 interface HTMLElementTagNameMap {
