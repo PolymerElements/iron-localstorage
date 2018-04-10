@@ -89,7 +89,8 @@ interface IronLocalstorageElement extends Polymer.Element {
   useRaw: boolean|null|undefined;
 
   /**
-   * Value will not be saved automatically if true. You'll have to do it manually with `save()`
+   * Value will not be saved automatically if true. You'll have to do it
+   * manually with `save()`
    */
   autoSaveDisabled: boolean|null|undefined;
 

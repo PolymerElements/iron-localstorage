@@ -37,31 +37,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <x-test></x-test>
 
   <script>
-
     window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
     var xtest;
 
     suite('basic', function() {
-
       suiteSetup(function() {
-        Polymer({
-          is: 'x-foo',
-          properties: {
-            'value': {
-              type: Object,
-              notify: true
-            }
-          }
-        });
-        Polymer({
-          is: 'x-test',
-          properties: {
-            'value': {
-              type: Object,
-              notify: true
-            }
-          }
-        });
+        Polymer({is: 'x-foo', properties: {'value': {type: Object, notify: true}}});
+        Polymer(
+            {is: 'x-test', properties: {'value': {type: Object, notify: true}}});
         window.localStorage.setItem('iron-localstorage-test', '{"foo":"bar"}');
         xtest = document.querySelector('x-test');
         xtest.$.localstorage.reload();
@@ -92,9 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         v = JSON.parse(v);
         assert.equal(v.foo, 'quux');
       });
-
     });
-
   </script>
 
 </body>
