@@ -29,11 +29,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </test-fixture>
 
   <script>
-
     var storage;
 
     suite('raw', function() {
-
       setup(function() {
         window.localStorage.setItem('iron-localstorage-test', 'hello world');
         document.getElementById('fixture').create();
@@ -56,9 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var v = window.localStorage.getItem(storage.name);
         assert.equal(v, m);
       });
-
     });
-
   </script>
 
 </body>

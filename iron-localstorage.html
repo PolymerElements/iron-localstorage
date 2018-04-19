@@ -75,7 +75,6 @@ is resolved. Local storage will be blown away.
 -->
 <dom-module id="iron-localstorage"></dom-module>
 <script>
-
   Polymer({
     is: 'iron-localstorage',
 
@@ -83,48 +82,31 @@ is resolved. Local storage will be blown away.
       /**
        * localStorage item key
        */
-      name: {
-        type: String,
-        value: ''
-      },
+      name: {type: String, value: ''},
       /**
        * The data associated with this storage.
        * If set to null item will be deleted.
        * @type {*}
        */
-      value: {
-        type: Object,
-        notify: true
-      },
+      value: {type: Object, notify: true},
 
       /**
        * If true: do not convert value to JSON on save/load
        */
-      useRaw: {
-        type: Boolean,
-        value: false
-      },
+      useRaw: {type: Boolean, value: false},
 
       /**
-       * Value will not be saved automatically if true. You'll have to do it manually with `save()`
+       * Value will not be saved automatically if true. You'll have to do it
+       * manually with `save()`
        */
-      autoSaveDisabled: {
-        type: Boolean,
-        value: false
-      },
+      autoSaveDisabled: {type: Boolean, value: false},
       /**
        * Last error encountered while saving/loading items
        */
-      errorMessage: {
-        type: String,
-        notify: true
-      },
+      errorMessage: {type: String, notify: true},
 
       /** True if value has been loaded */
-      _loaded: {
-        type: Boolean,
-        value: false
-      }
+      _loaded: {type: Boolean, value: false}
     },
 
     observers: [
@@ -187,7 +169,9 @@ is resolved. Local storage will be blown away.
       } catch (ex) {
         this.errorMessage = ex.message;
 
-        this._error("Could not save to localStorage.  Try enabling cookies for this page.", ex);
+        this._error(
+            'Could not save to localStorage.  Try enabling cookies for this page.',
+            ex);
       };
 
       if (v === null) {
@@ -195,14 +179,17 @@ is resolved. Local storage will be blown away.
         this._doNotSave = true;  // guard for save watchers
         this.value = null;
         this._doNotSave = false;
-        this.fire('iron-localstorage-load-empty', { externalChange: externalChange}, {composed: true});
+        this.fire(
+            'iron-localstorage-load-empty',
+            {externalChange: externalChange},
+            {composed: true});
       } else {
         if (!this.useRaw) {
-          try { // parse value as JSON
+          try {  // parse value as JSON
             v = JSON.parse(v);
-          } catch(x) {
-            this.errorMessage = "Could not parse local storage value";
-            Polymer.Base._error("could not parse local storage value", v);
+          } catch (x) {
+            this.errorMessage = 'Could not parse local storage value';
+            Polymer.Base._error('could not parse local storage value', v);
             v = null;
           }
         }
@@ -210,7 +197,9 @@ is resolved. Local storage will be blown away.
         this._doNotSave = true;
         this.value = v;
         this._doNotSave = false;
-        this.fire('iron-localstorage-load', { externalChange: externalChange}, {composed: true});
+        this.fire('iron-localstorage-load', {externalChange: externalChange}, {
+          composed: true
+        });
       }
     },
 
@@ -226,11 +215,12 @@ is resolved. Local storage will be blown away.
         } else {
           window.localStorage.setItem(this.name, /** @type {string} */ (v));
         }
-      }
-      catch(ex) {
+      } catch (ex) {
         // Happens in Safari incognito mode,
         this.errorMessage = ex.message;
-        Polymer.Base._error("Could not save to localStorage. Incognito mode may be blocking this action", ex);
+        Polymer.Base._error(
+            'Could not save to localStorage. Incognito mode may be blocking this action',
+            ex);
       }
     }
 
@@ -251,5 +241,4 @@ is resolved. Local storage will be blown away.
      *     externalChange: true if change occured in different window.
      */
   });
-
 </script>
