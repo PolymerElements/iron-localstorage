@@ -14,11 +14,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <title>iron-localstorage</title>
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-  <link rel="import" href="../../paper-styles/demo-pages.html">
-  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
-  <link rel="import" href="../iron-localstorage.html">
+  <script type="module" src="../../paper-styles/demo-pages.js"></script>
+  <script type="module" src="../../paper-checkbox/paper-checkbox.js"></script>
+  <script type="module" src="../iron-localstorage.js"></script>
   <style is="custom-style">
     input {
       padding: 0.4em;
@@ -44,18 +44,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>Name: <input value="{{value.name::change}}" placeholder="Enter words"></p>
         <paper-checkbox checked="{{value.hasEars::change}}">Has ears</paper-checkbox>
       </template>
-      <script>
-        window.addEventListener('WebComponentsReady', function() {
-          Polymer({
-            is: 'demo-element',
+      <script type="module">
+import '@polymer/paper-styles/demo-pages.js';
+import '@polymer/paper-checkbox/paper-checkbox.js';
+import '../iron-localstorage.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+Polymer({
+  is: 'demo-element',
 
-            initializeDefaultValue: function(ev) {
-              console.log('initializeTemplate');
-              this.value = { name: 'Mickey', hasEars: true }
-            }
-          })
-        })
-      </script>
+  initializeDefaultValue: function(ev) {
+    console.log('initializeTemplate');
+    this.value = { name: 'Mickey', hasEars: true }
+  }
+})
+</script>
     </dom-module>
 
     <demo-element>
