@@ -57,6 +57,8 @@ Value is saved as json by default.
       }
     }
 
+    customElements.define('ls-sample', LsSample);
+
 ### Tech notes:
 
 * * `value.*` is observed, and saved on modifications. You must use
