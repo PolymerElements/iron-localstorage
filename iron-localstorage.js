@@ -21,36 +21,41 @@ Value is saved as json by default.
 ### Usage:
 
 `ls-sample` will automatically save changes to its value.
+    import {PolymerElement, html} from '@polymer/polymer';
 
-    <dom-module id="ls-sample">
-      <iron-localstorage name="my-app-storage"
-        value="{{cartoon}}"
-        on-iron-localstorage-load-empty="initializeDefaultCartoon"
-      ></iron-localstorage>
-    </dom-module>
+    class LsSample extends PolymerElement {
+      static get template() {
+        return html`
+          <iron-localstorage
+              name="my-app-storage"
+              value="{{cartoon}}"
+              on-iron-localstorage-load-empty="initializeDefaultCartoon">
+          </iron-localstorage>
+        `;
+      }
 
-    <script>
-      Polymer({
-        is: 'ls-sample',
-        properties: {
+      static get properties() {
+        return {
           cartoon: {
             type: Object
           }
-        },
-        // initializes default if nothing has been stored
-        initializeDefaultCartoon: function() {
-          this.cartoon = {
-            name: "Mickey",
-            hasEars: true
-          }
-        },
-        // use path set api to propagate changes to localstorage
-        makeModifications: function() {
-          this.set('cartoon.name', "Minions");
-          this.set('cartoon.hasEars', false);
         }
-      });
-    </script>
+      }
+
+      // initializes default if nothing has been stored
+      initializeDefaultCartoon() {
+        this.cartoon = {
+          name: "Mickey",
+          hasEars: true
+        }
+      }
+
+      // use path set api to propagate changes to localstorage
+      makeModifications() {
+        this.set('cartoon.name', "Minions");
+        this.set('cartoon.hasEars', false);
+      }
+    }
 
 ### Tech notes:
 
