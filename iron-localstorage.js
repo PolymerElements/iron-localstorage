@@ -1,12 +1,16 @@
 /**
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+This code may only be used under the BSD style license found at
+http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+part of the polymer project is also subject to an additional IP rights grant
+found at http://polymer.github.io/PATENTS.txt
 */
+import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {Base} from '@polymer/polymer/polymer-legacy.js';
+
 /**
 Element access to Web Storage API (window.localStorage).
 
@@ -17,36 +21,43 @@ Value is saved as json by default.
 ### Usage:
 
 `ls-sample` will automatically save changes to its value.
+    import {PolymerElement, html} from '@polymer/polymer';
 
-    <dom-module id="ls-sample">
-      <iron-localstorage name="my-app-storage"
-        value="{{cartoon}}"
-        on-iron-localstorage-load-empty="initializeDefaultCartoon"
-      ></iron-localstorage>
-    </dom-module>
+    class LsSample extends PolymerElement {
+      static get template() {
+        return html`
+          <iron-localstorage
+              name="my-app-storage"
+              value="{{cartoon}}"
+              on-iron-localstorage-load-empty="initializeDefaultCartoon">
+          </iron-localstorage>
+        `;
+      }
 
-    <script>
-      Polymer({
-        is: 'ls-sample',
-        properties: {
+      static get properties() {
+        return {
           cartoon: {
             type: Object
           }
-        },
-        // initializes default if nothing has been stored
-        initializeDefaultCartoon: function() {
-          this.cartoon = {
-            name: "Mickey",
-            hasEars: true
-          }
-        },
-        // use path set api to propagate changes to localstorage
-        makeModifications: function() {
-          this.set('cartoon.name', "Minions");
-          this.set('cartoon.hasEars', false);
         }
-      });
-    </script>
+      }
+
+      // initializes default if nothing has been stored
+      initializeDefaultCartoon() {
+        this.cartoon = {
+          name: "Mickey",
+          hasEars: true
+        }
+      }
+
+      // use path set api to propagate changes to localstorage
+      makeModifications() {
+        this.set('cartoon.name', "Minions");
+        this.set('cartoon.hasEars', false);
+      }
+    }
+
+    customElements.define('ls-sample', LsSample);
 
 ### Tech notes:
 
@@ -60,24 +71,11 @@ Value is saved as json by default.
 
 * * To delete a key, set value to null
 
-* Element listens to StorageAPI `storage` event, and will reload upon receiving it.
-
-* **Warning**: do not bind value to sub-properties until Polymer
-[bug 1550](https://github.com/Polymer/polymer/issues/1550)
-is resolved. Local storage will be blown away.
-`<iron-localstorage value="{{foo.bar}}"` will cause **data loss**.
+* Element listens to StorageAPI `storage` event, and will reload upon receiving
+it.
 
 @demo demo/index.html
-@hero hero.svg
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import { Base } from '@polymer/polymer/polymer-legacy.js';
-
-import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 Polymer({
   is: 'iron-localstorage',
 
@@ -85,37 +83,55 @@ Polymer({
     /**
      * localStorage item key
      */
-    name: {type: String, value: ''},
+    name: {
+      type: String,
+      value: '',
+    },
     /**
      * The data associated with this storage.
      * If set to null item will be deleted.
      * @type {*}
      */
-    value: {type: Object, notify: true},
+    value: {
+      type: Object,
+      notify: true,
+    },
 
     /**
      * If true: do not convert value to JSON on save/load
      */
-    useRaw: {type: Boolean, value: false},
+    useRaw: {
+      type: Boolean,
+      value: false,
+    },
 
     /**
      * Value will not be saved automatically if true. You'll have to do it
      * manually with `save()`
      */
-    autoSaveDisabled: {type: Boolean, value: false},
+    autoSaveDisabled: {
+      type: Boolean,
+      value: false,
+    },
     /**
      * Last error encountered while saving/loading items
      */
-    errorMessage: {type: String, notify: true},
+    errorMessage: {
+      type: String,
+      notify: true,
+    },
 
     /** True if value has been loaded */
-    _loaded: {type: Boolean, value: false}
+    _loaded: {
+      type: Boolean,
+      value: false,
+    }
   },
 
   observers: [
     '_debounceReload(name,useRaw)',
     '_trySaveValue(autoSaveDisabled)',
-    '_trySaveValue(value.*)'
+    '_trySaveValue(value.*)',
   ],
 
   ready: function() {
