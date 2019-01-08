@@ -134,6 +134,8 @@ Polymer({
     '_trySaveValue(value.*)',
   ],
 
+  _template: null,
+
   ready: function() {
     this._boundHandleStorage = this._handleStorage.bind(this);
   },
