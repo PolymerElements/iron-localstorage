@@ -134,16 +134,20 @@ Polymer({
     '_trySaveValue(value.*)',
   ],
 
+  /** @override */
   _template: null,
 
+  /** @override */
   ready: function() {
     this._boundHandleStorage = this._handleStorage.bind(this);
   },
 
+  /** @override */
   attached: function() {
     window.addEventListener('storage', this._boundHandleStorage);
   },
 
+  /** @override */
   detached: function() {
     window.removeEventListener('storage', this._boundHandleStorage);
   },
@@ -227,6 +231,7 @@ Polymer({
   /**
    * Saves the value to localStorage. Call to save if autoSaveDisabled is set.
    * If `value` is null or undefined, deletes localStorage.
+   * @override
    */
   save: function() {
     var v = this.useRaw ? this.value : JSON.stringify(this.value);
